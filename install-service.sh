@@ -3,11 +3,12 @@
 
 set -e
 
+# Use absolute path for the user's directory
 PROXY_DIR="/home/grey/codex-ollama-proxy"
 SERVICE_FILE="$PROXY_DIR/codex-ollama-proxy.service"
 
 echo "╔══════════════════════════════════════════════════════════╗"
-echo "║     Installing Codex ↔ Ollama Proxy System Service       ║"
+echo "║     Installing Codex ↔ Ollama Proxy System Service     ║"
 echo "╚══════════════════════════════════════════════════════════╝"
 
 # Check if running as root
@@ -24,15 +25,7 @@ fi
 
 echo "✓ Node.js found: $(node --version)"
 
-# Create log directory
-LOG_DIR="/var/log/codex-ollama-proxy"
-if [ ! -d "$LOG_DIR" ]; then
-  mkdir -p "$LOG_DIR"
-  chown grey:grey "$LOG_DIR"
-  echo "✓ Created log directory: $LOG_DIR"
-fi
-
-# Install service file
+# Install service file from absolute path
 echo "Installing service file..."
 cp "$SERVICE_FILE" /etc/systemd/system/codex-ollama-proxy.service
 systemctl daemon-reload
@@ -53,7 +46,7 @@ if systemctl is-active --quiet codex-ollama-proxy.service; then
   echo "╠══════════════════════════════════════════════════════════╣"
   echo "║  Service: codex-ollama-proxy                             ║"
   echo "║  Endpoint: http://127.0.0.1:11435                        ║"
-  echo "║  Logs: journalctl -u codex-ollama-proxy -f               ║"
+  echo "║  Logs: journalctl -u codex-ollama-proxy -f              ║"
   echo "╚══════════════════════════════════════════════════════════╝"
 else
   echo "✗ Service failed to start"
