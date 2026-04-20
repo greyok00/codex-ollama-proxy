@@ -6,7 +6,7 @@ A full OpenAI API-compatible proxy that transforms Codex's Responses API and Cha
 
 - **Full `/v1/` API support**: Handles both `/v1/responses` and `/v1/chat/completions` endpoints
 - **Role transformation**: Converts `developer` role → `system` role
-- **Tool output normalization**: Converts array outputs to strings (fixes `ResponsesFunctionCallOutput` errors)
+- **Tool output normalization**: Converts array outputs to strings
 - **Bidirectional format conversion**: Transforms between OpenAI and Ollama response formats
 - **System service**: Runs as a systemd service with automatic restart
 
@@ -33,18 +33,7 @@ sudo journalctl -u codex-ollama-proxy -f
 
 ## Configuration
 
-### For Codex Brain
-
-Update your brain settings to use the proxy:
-
-```python
-# In brain settings or environment
-OPENAI_BASE_URL="http://127.0.0.1:11435/v1/"
-```
-
-### For Other Applications
-
-Any OpenAI-compatible client can use this proxy:
+Update your application settings to use the proxy:
 
 ```python
 from openai import OpenAI
@@ -59,7 +48,7 @@ client = OpenAI(
 
 | Endpoint | Description |
 |----------|-------------|
-| `POST /v1/responses` | Codex Responses API → Ollama |
+| `POST /v1/responses` | Responses API → Ollama |
 | `POST /v1/chat/completions` | Chat Completions API → Ollama |
 | `GET /v1/models` | List available Ollama models |
 
@@ -76,20 +65,11 @@ client = OpenAI(
 
 ### 2. Tool Output Arrays → Strings
 ```json
-// Input (causes error)
+// Input
 {"role": "tool", "output": ["result1", "result2"]}
 
-// Transformed (works)
-{"role": "tool", "output": "result1\nresult2"}
-```
-
-### 3. Responses API → Ollama Format
-```json
-// Input
-{"input": [...], "model": "gpt-4"}
-
 // Transformed
-{"messages": [...], "model": "qwen3.5:cloud"}
+{"role": "tool", "output": "result1\nresult2"}
 ```
 
 ## Troubleshooting
@@ -120,7 +100,7 @@ curl http://127.0.0.1:11435/v1/models
 ## Architecture
 
 ```
-Codex CLI → Port 11435 (Proxy) → Port 11434 (Ollama)
+Application → Port 11435 (Proxy) → Port 11434 (Ollama)
     ↓            ↓                    ↓
 OpenAI API   Transform           Ollama
 Format       Roles/Output         Native

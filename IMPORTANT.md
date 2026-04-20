@@ -1,20 +1,12 @@
-# ⚠️ IMPORTANT: Run Proxy Outside Codex Sandbox
+# ⚠️ IMPORTANT: Run Proxy Outside Sandbox
 
 ## The Problem
 
-The proxy server cannot run inside the Codex sandbox because it needs network permissions to listen on a port.
-
-## What You've Got
-
-All files are in: `~/codex-ollama-proxy/`
-
-- `proxy.js` - The proxy server
-- `install-service.sh` - Installs as systemd service
-- `README.md` - Full documentation
+The proxy server needs network permissions to listen on a port and cannot run inside restricted sandboxes.
 
 ## Quick Setup
 
-### 1. Install the service (outside Codex terminal)
+### 1. Install the service
 
 ```bash
 cd ~/codex-ollama-proxy
@@ -27,11 +19,11 @@ sudo ./install-service.sh
 curl http://127.0.0.1:11435/v1/models
 ```
 
-### 3. Update your Codex brain config
+### 3. Configure your application
 
-Set `OPENAI_BASE_URL` to `http://127.0.0.1:11435/v1/`
+Set your application's API base URL to `http://127.0.0.1:11435/v1/`
 
-### 4. Restart Codex
+### 4. Restart your application
 
 ## Troubleshooting
 
