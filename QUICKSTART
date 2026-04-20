@@ -1,0 +1,17 @@
+# Quick Start Commands
+
+# 1. Start Ollama (in one terminal)
+ollama serve
+
+# 2. Start the proxy (in another terminal)
+cd ~/codex-brain/codex-ollama-proxy && node proxy.js
+
+# 3. Update Codex config (in another terminal)
+cd ~/codex-brain/codex-ollama-proxy && ./update-config.sh
+
+# 4. Restart Codex
+
+# 5. Test the proxy
+cd ~/codex-brain/codex-ollama-proxy && ./test-proxy.sh
+
+# That's it! Codex should now work with Ollama.

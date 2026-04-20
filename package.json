@@ -1,0 +1,9 @@
+{
+  "name": "codex-ollama-proxy",
+  "version": "1.0.0",
+  "description": "Proxy to transform developer roles to system roles for Ollama",
+  "main": "proxy.js",
+  "scripts": {
+    "start": "node proxy.js"
+  }
+}

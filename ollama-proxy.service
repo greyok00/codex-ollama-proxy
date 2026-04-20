@@ -1,0 +1,22 @@
+[Unit]
+Description=Ollama Proxy for Codex - Transforms developer roles to system roles
+After=network.target
+
+[Service]
+Type=simple
+User=grey
+Group=grey
+WorkingDirectory=/home/grey/codex-brain/codex-ollama-proxy
+ExecStart=/usr/bin/node /home/grey/codex-brain/codex-ollama-proxy/proxy.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ollama-proxy
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,27 @@
+[Unit]
+Description=Codex ↔ Ollama Proxy — OpenAI API to Ollama bridge
+Documentation=https://github.com/codex-ollama-proxy
+After=network.target ollama.service
+Wants=ollama.service
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/node /home/grey/codex-ollama-proxy/proxy.js
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=codex-ollama-proxy
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/log/codex-ollama-proxy
+PrivateTmp=true
+
+# Environment
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
